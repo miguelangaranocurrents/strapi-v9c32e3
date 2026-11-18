@@ -750,7 +750,12 @@ const RelationModalWithContext = ({
 
   const options = data?.results ?? [];
 
-  React.useLayoutEffect(() => {
+  /**
+   * Reset the search text once a relation has been selected. This must be a passive effect:
+   * the Combobox syncs its text to the selected option's label in its own (child) effect,
+   * and a layout effect would run before that and get overwritten.
+   */
+  React.useEffect(() => {
     setTextValue('');
   }, [fieldValue]);
 
